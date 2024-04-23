@@ -2,9 +2,7 @@ import os
 import random
 import sys
 import pygame as pg
-
-
-WIDTH, HEIGHT = 1000, 600
+WIDTH, HEIGHT = 1600, 900
 DELTA = {  # 移動量辞書（押下キー：移動量タプル）
     pg.K_UP: (0, -5),
     pg.K_DOWN: (0, +5),
@@ -12,8 +10,6 @@ DELTA = {  # 移動量辞書（押下キー：移動量タプル）
     pg.K_RIGHT: (+5, 0),
 }
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
-
 def check_bound(obj_rct:pg.Rect) -> tuple[bool, bool]:
     """
     こうかとんRect，または，爆弾Rectの画面内外判定用の関数
@@ -26,8 +22,6 @@ def check_bound(obj_rct:pg.Rect) -> tuple[bool, bool]:
     if obj_rct.top < 0 or HEIGHT < obj_rct.bottom:
         tate = False
     return yoko, tate
-
-
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -43,13 +37,16 @@ def main():
     bd_rct = bd_img.get_rect()
     bd_rct.center = random.randint(0, WIDTH), random.randint(0, HEIGHT)
     vx, vy = +5, +5  # 横方向速度，縦方向速度
-
     clock = pg.time.Clock()
     tmr = 0
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
+                return 
+        if kk_rct.colliderect(bd_rct):  # こうかとんと爆弾がぶつかったら
+            print("Game Over")
+            return
         screen.blit(bg_img, [0, 0]) 
 
         # こうかとんの移動と表示
@@ -74,8 +71,6 @@ def main():
         pg.display.update()
         tmr += 1
         clock.tick(50)
-
-
 if __name__ == "__main__":
     pg.init()
     main()
