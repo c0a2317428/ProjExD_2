@@ -2,6 +2,7 @@ import os
 import random
 import sys
 import pygame as pg
+import time
 WIDTH, HEIGHT = 1600, 900
 DELTA = {  # 移動量辞書（押下キー：移動量タプル）
     pg.K_UP: (0, -5),
@@ -44,10 +45,36 @@ def main():
             if event.type == pg.QUIT: 
                 return
                 return 
+        """
+        こうかとんが爆弾に当たったらgameoverの画面を表示する
+        """  
         if kk_rct.colliderect(bd_rct):  # こうかとんと爆弾がぶつかったら
-            print("Game Over")
+            fonto = pg.font.Font(None, 100)
+          
+            txt = fonto.render("Game Over",
+                               True, (255,255,255))
+            recte = pg.Surface((WIDTH,HEIGHT))
+            pg.draw.rect(recte, (0,0,0), (0,100,0,100))
+            recte.set_alpha
+            screen.blit(recte,[0,0])
+            
+            
+            screen.blit(txt, [600,400])
+            
+            pg.display.update()
+            kk_img = pg.transform.rotozoom(pg.image.load("fig/8.png"), 0, 2.0)
+            kk_rct = kk_img.get_rect()
+            kk_rct.center = 900, 400
+            recte.set_alpha
+
+            time.sleep(5) 
+            
+            
+            
+
             return
-        screen.blit(bg_img, [0, 0]) 
+        screen.blit(bg_img, [0, 0])
+             
 
         # こうかとんの移動と表示
         key_lst = pg.key.get_pressed()
